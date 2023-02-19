@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<definitions name='News' 
+  targetNamespace='http://mysite.local/news' 
+  xmlns:tns='http://mysite.local/news' 
+  xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' 
+  xmlns:xsd='http://www.w3.org/2001/XMLSchema' 
+  xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/' 
+  xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'   
+  xmlns='http://schemas.xmlsoap.org/wsdl/'>
+
+  <message name='getNewsByIdRequest'>
+    <part name='id' type='xsd:integer' />
+  </message>
+  <message name='getNewsByIdResponse'>
+    <part name='item' type='xsd:base64Binary' />
+  </message>
+
+  <message name='getNewsCountResponse'>
+    <part name='count' type='xsd:integer' />
+  </message>
+
+  <message name='getNewsCountByCatRequest'>
+    <part name='cat_id' type='xsd:integer' />
+  </message>
+  <message name='getNewsCountByCatResponse'>
+    <part name='count' type='xsd:integer' />
+  </message>
+
+
+  <portType name='NewsPortType'>
+    <operation name='getNewsById'>
+      <input message='tns:getNewsByIdRequest' />
+      <output message='tns:getNewsByIdResponse' />
+    </operation>
+    <operation name='getNewsCount'>
+      <output message='tns:getNewsCountResponse' />
+    </operation>
+    <operation name='getNewsCountByCat'>
+      <input message='tns:getNewsCountByCatRequest' />
+      <output message='tns:getNewsCountByCatResponse' />
+    </operation>
+  </portType>
+
+  <binding name='NewsBinding' type='tns:NewsPortType'>
+    <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http' />
+    <operation name='getNewsById' />
+    <operation name='getNewsCount' />
+    <operation name='getNewsCountByCat' />
+  </binding>
+
+  <service name='NewsService'>
+    <port name='NewsPort' binding='NewsBinding'>
+      <soap:address location='http://mysite.local/soap/soap-server.php' />
+    </port>
+  </service>
+</definitions>
