@@ -98,7 +98,10 @@ class Ship{
     function say($word){
         // todo Доступ к свойству, где $this - это имя экземпляра класса.
         //  name - это одно из свойств будущего экземпляра класса.
+        //  в виде конкатенации строк.
         echo $this->name . "said $word";
+        // todo или тоже самое в экранированном виде.
+        echo "{$this->name} said $word\n";
         // todo Также внутри метода можно обращаться к другим методам класса.
         $this->startEngine();
     }
@@ -107,6 +110,27 @@ class Ship{
 $london = new Ship();
 $london->name = "Sailor Moon";
 echo $london->say("Once ready");
+
+// todo Использование псевдоконсант (магических констант) в классах.
+
+class MagicClass{
+    function saySimon(){
+        // todo вернет имя функции
+        echo "<p>Function name " . __FUNCTION__;
+    }
+        // todo вернет имя класса
+    function className(){
+        echo "<p>Class name " . __CLASS__;
+    }
+        // todo вернет имя класса и метода
+    function methodName(){
+        echo "<p>Method name " . __METHOD__;
+    }
+}
+$obj = new MagicClass();
+$obj->saySimon();
+$obj->className();
+$obj->methodName();
 
 
 
