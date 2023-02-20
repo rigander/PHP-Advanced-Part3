@@ -132,5 +132,43 @@ $obj->saySimon();
 $obj->className();
 $obj->methodName();
 
+?><br><br>
+<?php
+// todo Конструкторы и деструкторы
+
+class Gear{
+    public $name;
+    public $age = 0;
+    function __construct(){ // todo метод конструктор.
+        echo "Created new object - class Gear";
+        ?><br><br><?php
+    }
+}
+// todo Сразу при создании объекта выполнилась функция __construct.
+$reductionGear = new Gear();
+$amplifier = new Gear();
+
+class Box{
+    public $size;
+    public $weight = 0;
+    // todo так же можно указать параметры функции конструктора и тогда
+    //  при создании экземпляра класса (объекта) можно будет указать нужные данные
+    //  как аргументы.
+    function __construct($size, $weight){
+        $this -> size = $size;
+        $this -> weight = $weight;
+        echo "New box created with size: {$size} m and weight: {$weight} kg";
+        ?><br><br><?php
+    }
+}
+
+$someBox = new Box('0.2x0.3x0.4', '12');
+echo $someBox->weight; //12
+echo $someBox->size; // 0.2x0.3x0.4
+
+
+
+
+
 
 

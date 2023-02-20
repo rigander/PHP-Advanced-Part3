@@ -17,6 +17,11 @@ class User{
     public $name;
     public $login;
     public $password;
+    function __construct($name, $login, $password){
+        $this->name = $name;
+        $this->login = $login;
+        $this->password = $password;
+    }
     function showInfo(){
         echo "user name : {$this->name}";
         ?><br><?php
@@ -26,23 +31,16 @@ class User{
         ?><br><?php
         ?><br><?php
     }
+    function __destruct(){
+        echo "user: {$this->login} - deleted.";
+        ?><br><?php
+    }
 }
 
-$user1 = new User();
-$user2 = new User();
-$user3 = new User();
+$user1 = new User("Robert", "rob", "str123" );
+$user2 = new User("John","heck","fer46_45deva");
+$user3 = new User("Tim", "burton", "tbv45h67k");
 
-$user1->name = "Andrew";
-$user1->login = "cloud";
-$user1->password = "strong1234";
-
-$user2->name = "Dima";
-$user2->login = "sun";
-$user2->password = "very_strong1234";
-
-$user3->name = "Michael";
-$user3->login = "moon";
-$user3->password = "very_strong_pass_1234";
 
 $user1->showInfo();
 $user2->showInfo();
