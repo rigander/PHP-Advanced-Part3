@@ -45,6 +45,7 @@ class Animal{
     //  public - модификатор всем все можно, без ограничений.
     public $name;
     public $age = 0;
+    public $type = "living thing";
 }
 // todo У переменных $lion и $wolf как у экземпляров
 //  класса Animal существует свойство $name со значением по умолчанию null.
@@ -62,3 +63,50 @@ echo $wolf->age; // 0
 //   свойства удерживают состояние объекта.
 $wolf->name = "Jack";
 echo $wolf->name; // Jack
+echo $wolf->type; // living thing
+$wolf->type = "canis lupus";
+echo $wolf->type;  // canis lupus
+echo $lion->type;  // living thing
+
+?><br><br>
+<?php
+// todo У объекта может быть поведение(действие).
+//   Поведение объекта описывается МЕТОДАМИ.
+//   МЕТОД это обычная функция которая указывается (декларируется) внутри класса.
+//   Например, человек - ходит, спит, ест.
+//   Автомобиль - ездит, ускоряется, замедляется.
+
+class Vehicle{
+    public $type = "car";
+    public $color = "red";
+    function say(){ echo "I am method"; } // МЕТОД
+    function sayHi($hi){ echo $hi; }
+}
+
+$Mitsubishi = new Vehicle();
+echo $Mitsubishi->say(); // вызов метода экземпляра класса
+echo $Mitsubishi->sayHi("hello-again"); // hello-again
+?><br><br>
+<?php
+// todo Обращение к свойствам и методам внутри класса
+class Ship{
+    public $name = "Astra";
+    public $age = 0;
+    function startEngine(){
+     echo "Start Main Engine";
+    }
+    function say($word){
+        // todo Доступ к свойству, где $this - это имя экземпляра класса.
+        //  name - это одно из свойств будущего экземпляра класса.
+        echo $this->name . "said $word";
+        // todo Также внутри метода можно обращаться к другим методам класса.
+        $this->startEngine();
+    }
+}
+
+$london = new Ship();
+$london->name = "Sailor Moon";
+echo $london->say("Once ready");
+
+
+
