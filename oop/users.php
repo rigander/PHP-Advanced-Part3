@@ -64,5 +64,6 @@ class SuperUser extends User{
 }
 $user = new SuperUser("Alice", "wander_girl", "alw1234_2", "great engineer");
 $user->showInfo();
-
+//todo Уже видно, что OOP позволяет меньше писать кода,
+//   экономить пространство и время разработки.
 
