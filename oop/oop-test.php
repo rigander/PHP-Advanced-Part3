@@ -168,6 +168,100 @@ echo $someBox->size; // 0.2x0.3x0.4
 
 
 
+// todo Клонирование объектов
+// todo Копирование значений переменных всех типов, кроме объектов
+$x = 10;
+$y = $x; // $y - копия $x
+$y = 20;
+?><br><br><?php
+echo $y; // 20
+?><br><br><?php
+echo $x; // 10
+?><br><br><?php
+
+// todo Создание ссылок для всех типов, кроме объектов
+$x = 11;
+$z = &$x; // $z - ссылка на $x
+$z = 20;
+echo $z; // 20
+echo $x; // 20
+
+class MyClass{
+    public $param;
+    function __construct($param){
+        $this->param = $param;
+    }
+    //todo магический метод __clone позволяет автоматически исполнить
+    //  некоторый код в случае клонирования объекта.
+    // Важный момент, никаких параметров задать в этот метод нельзя.
+    function __clone(){
+        echo "Object cloned";
+    }
+}
+// todo Создание объекта
+$objX = new MyClass(10);
+//todo $objX - это объект, он не хранит
+//   в себе данные, а лишь ссылку на область памяти где они хранятся.
+$objY = $objX; // todo в этом случае не происходит копирования данных,
+//todo а создаётся еще одна ссылка к той же области памяти. то есть
+//  изменяя значение одного объекта измениться значение и второго.
+
+//todo Клонирование объектов.
+//  Если мы хотим получить другой объект ссылающийся на другую область памяти
+// но содержащий ту же информацию, то используем ключевое слово clone.
+
+$objZ = clone $objX; // todo $objZ является полной копией $objX и отдельным объектом.
+// todo изменение  $objZ никак не влияет на $objX.
+$objZ->param = 30;
+echo $objX->param; // 20
+
+// todo Наследование классов
+//  В ООП есть возможность описать (базовый класс) супер класс
+//  и его при необходимости наследовать.
+//  Создание супер-класса
+class SimpleHouse{
+    public $model = "";
+    public $squire = 0;
+    public $floors = 0;
+    public $color = "none";
+    function __construct($model, $square = 0, $floors = 1){
+        $this->model = $model;
+        $this->square = $square;
+        $this->floors = $floors;
+    }
+    function startProject(){
+        echo "Start. Model: {$this->model}\n";
+    }
+    function stopProject(){
+        echo "Stop. Model: {$this->model}\n\n";
+    }
+    function build(){
+        echo "Build. House: {$this->square}x{$this->floors}\n";
+    }
+    function paint(){
+        echo "Paint. Color: {$this->color}\n";
+    }
+}
+//todo Создание простого дома - экземпляра класса (object).
+$simple = new SimpleHouse("A-100-123", 120, 2);
+$simple->color = "red";
+$simple->startProject();
+$simple->build();
+$simple->paint();
+$simple->stopProject();
+
+//todo Создание класса-наследника при помощи ключевого слова extends.
+//  в этом случае мы создаём новый класс SuperHouse который наследует(содержит)
+//  все параметры и методы родительского класса или супер класса SimpleHouse
+//  плюс обладает своими дополнительными параметрами и методами.
+class SuperHouse extends SimpleHouse{
+    public $fireplace = true;
+    public $patio = true;
+    function fire(){
+        if ($this->fireplace)
+            echo "Fueled fireplace\n";
+    }
+}
 
 
 

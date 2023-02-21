@@ -46,5 +46,23 @@ $user1->showInfo();
 $user2->showInfo();
 $user3->showInfo();
 
+// todo Laba 1.3
+//  Реализация наследования классов.
+
+class SuperUser extends User{
+    public $role = "unknown";
+    function __construct($name, $login, $password, $role){
+        $this->role = $role;
+        parent::__construct($name, $login, $password);
+    }
+    function showInfo()
+    {
+        parent::showInfo();
+        echo "user role : {$this->role}";
+        ?><br><?php
+    }
+}
+$user = new SuperUser("Alice", "wander_girl", "alw1234_2", "great engineer");
+$user->showInfo();
 
 
