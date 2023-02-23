@@ -263,6 +263,164 @@ class SuperHouse extends SimpleHouse{
     }
 }
 
+// todo Абстрактные классы и методы
+//  Первое главное отличие - Невозможно создать экземпляр абстрактного класса.
+//  Задача абстрактного класса в том чтобы на его основе создавать другие классы.
+abstract class HouseAbstract{
+    public $model = "";
+    public $square;
+    public $floors;
+
+    function __construct($model, $square = 0, $floors = 1){
+        if (!$model)
+            throw new Exception("Error! Assign model!");
+        $this->model = $model;
+        $this->square = $square;
+        $this->floors = $floors;
+    }
+
+    function startProject(){
+        echo "Start. Model: {$this->model}\n";
+    }
+    function stopProject(){
+        echo "Stop. Model: {$this->model}\n";
+    }
+    //todo Абстрактный метод
+    abstract function build();
+}
+// todo  Создание класса наследника абстрактного класса.
+class NewHouse extends HouseAbstract{
+    public $color = "none";
+    //todo Обязательная реализация абстрактного метода
+    function build()
+    {
+        echo "Build. House: {$this->square}x{$this->floors}";
+    }
+    //todo  Свой метод
+    function paint(){
+        echo "Paint. Color: {$this->color}\n";
+    }
+}
+// todo Создание экземпляра класса (объекта)
+
+$simple = new NewHouse("A-11-23", "180", "2");
+?><br><?php
+$simple->build();
 
 
+//todo Интерфейсы
+// todo Создаётся при помощи ключевого слова interface.
+//  Для того чтобы писать строгий абстрактный код существует понятие интерфейс.
+//  В php это абстрактный класс который содержит только абстрактные методы.
+//  Писать в таком классе abstract перед function не нужно.
+//  С помощью interface описывают содержимое, поведение того или иного
+//  будущего класса.
+//  то есть ввести стандарт на наименование методов, на то какие параметры в них
+//  приходят. Программируйте на уровне интерфейса, а реализуйте на уровне класса.
 
+// todo Создаём класс interface.
+interface Paintable{
+    function paint();
+}
+interface Brick{};
+interface Panel{};
+
+//todo Создаём абстрактный класс, со своими методами и конструктором.
+abstract class DomAbstract{
+    public $model = "";
+    public $square;
+    public $floors;
+
+    function __construct($model, $square = 0, $floors = 1){
+        if (!$model)
+            throw new Exception('Ошибка! Укажите модель!');
+        $this->model = $model;
+        $this->square = $square;
+        $this->floors = $floors;
+    }
+    function startProject(){
+        echo "Start. Model: {$this->model}\n";
+    }
+    function stopProject(){
+        echo "Stop. Model: {$this->model}\n\n";
+    }
+    abstract function build();
+}
+
+// todo Интрефейсы не наследуются а реализуются с помощью ключевого
+//  слова implements.
+//  в данном случае создаём class SimpleDom который наследует абстрактный класс
+//  DomAbstract и интерфейс Paintable. Все методы унаследованные из абстрактного
+//  класса и из интерфейса обязательны к реализации.
+class SimpleDom extends DomAbstract implements Paintable{
+    public $color = "none";
+    function build()
+    {
+        echo "Build.House: {$this->square}x{$this->floors}";
+
+    }
+    function paint()
+    {
+        echo "Paint.House: {$this->color}";
+    }
+}
+//todo Создаём экземпляр получившегося класса.
+$domSea = new SimpleDom("sea","340", "2");
+$domSea->color= "blue";
+$domSea->build();
+$domSea->paint();
+//todo Класс может реализовывать любое число интерфейсов. Если он их реализует
+// он должен описать все методы этих интерфейсов.
+// всё это для стандартизации.
+class MediumDom extends DomAbstract implements Paintable, Brick{
+    function build()
+    {
+        // TODO: Implement build() method.
+    }
+    function paint()
+    {
+        // TODO: Implement paint() method.
+    }
+}
+
+//todo Проверка класса в цепочке предков.
+// При помощи оператора instanceof можно создать условие для
+// проверки объекта, на тот факт является ли он наследником некоего
+// абстрактного класса или интерфейса. И если да, то запустить соответствующие
+// методы.
+// Нужно это в тех ситуациях когда нужно написать метод для объекта, для которого
+// еще не написан соответствующий класс или интерфейс. Или ты его не можешь видеть.
+if ($domSea instanceof Paintable)
+    $domSea->paint();
+    $domSea->stopProject();
+
+// todo Если абстрактный класс это что то вроде наброска чертежа, то интерфейс,
+//  это еще более схематичная сущность.
+
+//todo Константы и статические члены класса
+// Свойства это по сути переменные экземпляров класса, а
+// вот константы это константы класса, то есть она одна на всех,
+// она не принадлежит объектам, к ней нельзя обратиться через объект.
+class ConstructionCompany{
+    const NAME = "Horns and Hooves";
+
+    function printName(){
+        //todo Обращение к константе из метода класса.
+        // то есть изнутри класса, в его области видимости.
+        // тут важно понимать что константы класса принадлежат только
+        // классу и не принадлежат к к объектам (экземплярам класса).
+        // К константе нельзя обратиться из объекта, из объекта можно
+        //  обратиться только к свойствам (переменным класса).
+        // Соответственно для обращения к константе нельзя использовать
+        // ключевое слово this (переменная), а только слово self (сам класс)
+        echo self::NAME;
+    }
+}
+
+//todo Обращение к константе вне области видимости класса, но без создания
+// экземпляра класса.
+ echo ConstructionCompany::NAME;
+//todo чтобы обратиться к константе из переменной, нужно создать специальный
+// метод в родительском классе и уже обращаться к исполнению метода из под объекта.
+$company = new ConstructionCompany();
+$company->printName(); //todo В этом случае отработает метод, в котором есть обращение к константе.
