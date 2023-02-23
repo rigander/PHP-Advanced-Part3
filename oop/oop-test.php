@@ -101,7 +101,7 @@ class Ship{
         //  в виде конкатенации строк.
         echo $this->name . "said $word";
         // todo или тоже самое в экранированном виде.
-        echo "{$this->name} said $word\n";
+        echo "$this->name said $word\n";
         // todo Также внутри метода можно обращаться к другим методам класса.
         $this->startEngine();
     }
@@ -111,7 +111,7 @@ $london = new Ship();
 $london->name = "Sailor Moon";
 echo $london->say("Once ready");
 
-// todo Использование псевдоконсант (магических констант) в классах.
+// todo Использование псевдо-констант (магических констант) в классах.
 
 class MagicClass{
     function saySimon(){
@@ -157,7 +157,7 @@ class Box{
     function __construct($size, $weight){
         $this -> size = $size;
         $this -> weight = $weight;
-        echo "New box created with size: {$size} m and weight: {$weight} kg";
+        echo "New box created with size: $size m and weight: $weight kg";
         ?><br><br><?php
     }
 }
@@ -230,16 +230,16 @@ class SimpleHouse{
         $this->floors = $floors;
     }
     function startProject(){
-        echo "Start. Model: {$this->model}\n";
+        echo "Start. Model: $this->model\n";
     }
     function stopProject(){
-        echo "Stop. Model: {$this->model}\n\n";
+        echo "Stop. Model: $this->model\n\n";
     }
     function build(){
-        echo "Build. House: {$this->square}x{$this->floors}\n";
+        echo "Build. House: {$this->square}x$this->floors\n";
     }
     function paint(){
-        echo "Paint. Color: {$this->color}\n";
+        echo "Paint. Color: $this->color\n";
     }
 }
 //todo Создание простого дома - экземпляра класса (object).
@@ -280,10 +280,10 @@ abstract class HouseAbstract{
     }
 
     function startProject(){
-        echo "Start. Model: {$this->model}\n";
+        echo "Start. Model: $this->model\n";
     }
     function stopProject(){
-        echo "Stop. Model: {$this->model}\n";
+        echo "Stop. Model: $this->model\n";
     }
     //todo Абстрактный метод
     abstract function build();
@@ -294,11 +294,11 @@ class NewHouse extends HouseAbstract{
     //todo Обязательная реализация абстрактного метода
     function build()
     {
-        echo "Build. House: {$this->square}x{$this->floors}";
+        echo "Build. House: {$this->square}x$this->floors";
     }
     //todo  Свой метод
     function paint(){
-        echo "Paint. Color: {$this->color}\n";
+        echo "Paint. Color: $this->color\n";
     }
 }
 // todo Создание экземпляра класса (объекта)
@@ -327,9 +327,9 @@ interface Panel{};
 
 //todo Создаём абстрактный класс, со своими методами и конструктором.
 abstract class DomAbstract{
-    public $model = "";
-    public $square;
-    public $floors;
+    public  $model = "";
+    public  $square;
+    public  $floors;
 
     function __construct($model, $square = 0, $floors = 1){
         if (!$model)
@@ -339,15 +339,15 @@ abstract class DomAbstract{
         $this->floors = $floors;
     }
     function startProject(){
-        echo "Start. Model: {$this->model}\n";
+        echo "Start. Model: $this->model\n";
     }
     function stopProject(){
-        echo "Stop. Model: {$this->model}\n\n";
+        echo "Stop. Model: $this->model\n\n";
     }
     abstract function build();
 }
 
-// todo Интрефейсы не наследуются а реализуются с помощью ключевого
+// todo Интерфейсы не наследуются а реализуются с помощью ключевого
 //  слова implements.
 //  в данном случае создаём class SimpleDom который наследует абстрактный класс
 //  DomAbstract и интерфейс Paintable. Все методы унаследованные из абстрактного
@@ -356,12 +356,12 @@ class SimpleDom extends DomAbstract implements Paintable{
     public $color = "none";
     function build()
     {
-        echo "Build.House: {$this->square}x{$this->floors}";
+        echo "Build.House: {$this->square}x$this->floors";
 
     }
     function paint()
     {
-        echo "Paint.House: {$this->color}";
+        echo "Paint.House: $this->color";
     }
 }
 //todo Создаём экземпляр получившегося класса.
@@ -424,3 +424,22 @@ class ConstructionCompany{
 // метод в родительском классе и уже обращаться к исполнению метода из под объекта.
 $company = new ConstructionCompany();
 $company->printName(); //todo В этом случае отработает метод, в котором есть обращение к константе.
+
+//todo Статические свойства класса.
+// так же как и константы статические свойства (переменные) являются общими для
+// всех экземпляров класса и не копируются к объекты и из под объектов к ним
+// нет прямого доступа.
+// Статические свойства в отличии от констант поддаются изменению, но только из
+// под класса.
+
+class Workers{
+    public  $workerName;
+    static  $workerCount = 0;
+    function __construct($workerName){
+        if (!$workerName)
+            throw new Exception("Error. Enter the name!");
+        $this->workerName = $workerName;
+        ++self::$workerCount;
+    }
+
+}
