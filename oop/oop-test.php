@@ -298,7 +298,7 @@ class NewHouse extends HouseAbstract{
     }
     //todo  Свой метод
     function paint(){
-        echo "Paint. Color: $this->color\n";
+        echo "Paint. Color: {$this->color}\n";
     }
 }
 // todo Создание экземпляра класса (объекта)
@@ -439,7 +439,18 @@ class Workers{
         if (!$workerName)
             throw new Exception("Error. Enter the name!");
         $this->workerName = $workerName;
+        //todo Изменение статического свойства класса, так же как и с константами, доступ через
+        // ключевое слово self, что значит сам класс.
         ++self::$workerCount;
     }
-
+    //todo Статический метод класса. Эта функция принадлежит только классу.
+    // обращение к нему возможно лишь через self:: внутри класса
+    static function welcome(){
+        //todo Никаких $this в статическом методе класса!
+        echo 'Welcome to working field' . self::$workerCount . "\n";
+    }
 }
+//todo Вне тела класса, метод вызывается следующим образом. Название класса :: статический метод();
+Workers::welcome();
+
+

@@ -17,10 +17,12 @@ class User{
     public $name;
     public $login;
     public $password;
+    public static $count = 0;
     function __construct($name, $login, $password){
         $this->name = $name;
         $this->login = $login;
         $this->password = $password;
+        self::$count++;
     }
     function showInfo(){
         echo "user name : {$this->name}";
@@ -29,6 +31,11 @@ class User{
         ?><br><?php
         echo "user password : {$this->password}";
         ?><br><?php
+        ?><br><?php
+    }
+     static function showAmountOfUsers(){
+        $amount = self::$count - SuperUser::$superCount;
+        echo "Total amount of Users : {$amount}";
         ?><br><?php
     }
     function __destruct(){
@@ -46,24 +53,35 @@ $user1->showInfo();
 $user2->showInfo();
 $user3->showInfo();
 
-// todo Laba 1.3
+// todo Laba 1.3 and 1.4.
 //  Реализация наследования классов.
 
 class SuperUser extends User{
     public $role = "unknown";
+    public static $superCount = 0;
     function __construct($name, $login, $password, $role){
         $this->role = $role;
+        ++self::$superCount;
         parent::__construct($name, $login, $password);
     }
-    function showInfo()
-    {
+    function showInfo(){
         parent::showInfo();
         echo "user role : {$this->role}";
         ?><br><?php
     }
+    static function showAmountOfSuperUsers()
+    {
+        echo "Total amount of SuperUsers: " . self::$superCount;
+    }
 }
 $user = new SuperUser("Alice", "wander_girl", "alw1234_2", "great engineer");
 $user->showInfo();
-//todo Уже видно, что OOP позволяет меньше писать кода,
-//   экономить пространство и время разработки.
+?><br><br><?php
+User::showAmountOfUsers();
+SuperUser::showAmountOfSuperUsers();
+?><br><br><?php
+
+
+
+
 
