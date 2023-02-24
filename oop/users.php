@@ -24,6 +24,9 @@ class User{
         $this->password = $password;
         self::$count++;
     }
+    function __clone(){
+        self::$count++; //todo чтобы клонированные объекты тоже считались.
+    }
     function showInfo(){
         echo "user name : {$this->name}";
         ?><br><?php
@@ -33,7 +36,7 @@ class User{
         ?><br><?php
         ?><br><?php
     }
-     static function showAmountOfUsers(){
+     public static function showAmountOfUsers(){
         $amount = self::$count - SuperUser::$superCount;
         echo "Total amount of Users : {$amount}";
         ?><br><?php
@@ -47,6 +50,9 @@ class User{
 $user1 = new User("Robert", "rob", "str123" );
 $user2 = new User("John","heck","fer46_45deva");
 $user3 = new User("Tim", "burton", "tbv45h67k");
+$user4 = clone $user3; //todo Клонировали объект. При клонировании конструктор не
+                       //     вызывается! И его нужно добавлять отдельной функцией,
+                       //     для того чтобы посчитать все объекты.
 
 
 $user1->showInfo();
@@ -69,7 +75,7 @@ class SuperUser extends User{
         echo "user role : {$this->role}";
         ?><br><?php
     }
-    static function showAmountOfSuperUsers()
+    public static function showAmountOfSuperUsers()
     {
         echo "Total amount of SuperUsers: " . self::$superCount;
     }
