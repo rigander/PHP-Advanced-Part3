@@ -149,7 +149,7 @@ br();
 // как со свойствами. И не даём создавать то что нельзя создавать.
 // Когда php обращается к методу или свойству которое не существует или
 // заблокировано, то php перед тем как выдать ошибку проверяет класс  на наличие
-// логического метода __set(); И если такой метод описан в классе, то php при попытке
+// магического метода __set(); И если такой метод описан в классе, то php при попытке
 // обратиться к любому свойству сначала прогонит название и значение свойства через метод
 // __set (в его аргументы).
 
@@ -194,3 +194,69 @@ echo $newUser->age;
 br();
 //todo При таком подходе не случайно не абы как пользователь (разработчик) ничего не делает.
 // Все под контролем и только в разрешенных пределах.
+
+//todo То же самое можно реализовать следующим образом.
+class Delta{
+    private $props = [];
+
+    function __set($n, $v){
+        if ($n == "name" or $n == "age")
+            $this->props[$n] = $v;
+        else
+            throw new Exception("Error!");
+    }
+    function __get($n){
+        if ($n == "name" or $n == "age")
+            return $this->props[$n];
+        else
+            throw new Exception("Error!");
+    }
+}
+//todo В случае обращения к несуществующему методу, php перед тем как дать ошибку,
+// сначала проверит класс на наличие магического метода __call. Если такой метод
+// описан то
+
+class testMagicCall{
+    private $name;
+    private $age;
+    private $height;
+
+    function __call($n, $args){
+        echo "Call method $n with args ";
+        br();
+        print_r($args);
+    }
+}
+
+$user_call = new testMagicCall();
+
+$user_call->test_call(1,2,3,4,5);
+br();
+class testMagicCall2{
+    private $name;
+    private $age;
+    private $weight;
+
+    private function getData(){
+        echo "Important data";
+        br();
+    }
+
+    function __call($n, $v){
+        echo "Call method $n ";
+        br();
+        $this->getData();
+    }
+    //todo Так же можно обращаться к несуществующим статическим  методам,
+    // если прописан магический метод __callStatic
+    static function __callStatic($name, $args){
+        echo "Say my $name with arguments" . implode(",", $args);
+        br();
+    }
+}
+
+$user_call2 = new testMagicCall2();
+$user_call2->getData();
+
+testMagicCall2::staticFunction(10,10);
+
