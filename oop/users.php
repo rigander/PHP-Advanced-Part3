@@ -260,3 +260,81 @@ $user_call2->getData();
 
 testMagicCall2::staticFunction(10,10);
 
+//todo Преобразование объекта в строку
+// Для того чтобы при попытке вызвать объект получить некую строку нужно в классе
+// прописать магический метод __toString.
+class MyStringClass{
+    function __toString(){
+        return "This object, is instance of class: " . __CLASS__;
+    }
+}
+
+$myString = new MyStringClass();
+echo $myString;
+br();
+
+//todo Обращение к объекту как к функции
+// Для этого нужно указать магический метод __invoke;
+class Mathimatics{
+    function __invoke($num, $action){
+        switch($action){
+            case '+': return $num + $num;
+            case '*': return $num * $num;
+            default: throw new Exception('Unknown property!');
+        }
+    }
+}
+
+$math2 = new Mathimatics();
+echo $math2(250, "*");
+br();
+
+//todo Сериализация объекта.
+// Сериализация нужна для того чтобы можно было какой-то сложный
+// объект привести к строке и при необходимости из этой строки
+// развернуть обратно.
+// Важный момент. Если мы сериализуем объект, то сериализуются
+// только те свойства, которые мы укажем.
+
+class serializeObjEduc{
+    private $login;
+    private $password;
+    private $params = [];
+
+    function __construct($login, $password){
+        $this->login = $login;
+        $this->password = $password;
+        $this->params = $this->getUser();
+    }
+
+    function getUser(){
+        // Что-то делаем
+        // Например, возвращаем массив данных пользователя
+    }
+    //todo Магический метод __sleep вызовется перед сериализацией, и сериализует (приведет
+    // к строке) те свойства, что в нем указаны.
+    function __sleep(){
+        return ['login', 'password'];
+    }
+    //todo Магический метод __wakeup нужен для того чтобы при unserialize объекта,
+    // в нем заново создался массив $params. Дело в том что при unserialize не вызовется
+    // конструктор, он вызывается лишь при создании объекта.
+    // __wakeup будет вызван при unserialize. В нем удобно описать все методы которые
+    // должны отработать при unserialize.
+    function __wakeup(){
+        $this->params = $this->getUser();
+    }
+    function __toString(){
+        return "Love is..." . __CLASS__;
+    }
+}
+
+$serObj = new serializeObjEduc('ford','henry');
+$str = serialize($serObj);
+unset($serObj); //Удалить объект.
+$serObj = unserialize($str);
+
+echo $serObj;
+br();
+
+
