@@ -438,3 +438,51 @@ class TClass{
 $obj11 = new TClass();
 echo $obj11->word(), ", " , $obj11->sayHello("K"), "!";
 br();
+
+//todo Уточнение типа и полезные функции
+
+class MyClass2{};
+$my = new MyClass2();
+$std = new stdClass(); //todo Пустой класс описывать не обязательно. Можно сразу
+                       // создавать его экземпляр, а пустой класс в таком случае
+                       // создастся автоматически.
+
+function foo(MyClass2 $obj){} //todo В эту функцию может прийти только объект,
+                              // который является экземпляром класса MyClass2.
+                              // таким образом можно проверить к какому классу
+                              // принадлежит объект.
+
+foo($my); //Отработает успешно.
+//foo($std); //ERROR!
+
+class MyClass3{
+    function func(){
+        return __METHOD__;
+    }
+    static function staticFunc(){
+        return __METHOD__;
+    }
+    function __invoke(){
+        return __METHOD__;
+    }
+}
+$obj = new MyClass3();
+
+//todo Ожидается то, что можно вызвать. collable означает что как минимум это должна
+// быть строка совпадающая с именем чего-либо, какой-либо встроенной и описанной функции (метода).
+function foo2(callable $x){
+    if(func_num_args() == 2){
+        $m = func_get_arg(1);
+        return $x->$m();
+    }elseif(is_array($x)){
+        return $x[0]::$m[1]();
+    }else{
+        return $x();
+    }
+}
+
+echo foo2($obj, "func"); // MyClass3::func
+br();
+echo foo2(["MyClass", "staticFunc"]); // MyClass::staticFunc
+br();
+echo foo2($obj); // MyClass::__invoke
