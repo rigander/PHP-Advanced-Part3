@@ -361,3 +361,80 @@ class Chemistry{
     }
 }
 
+//todo Traits (типажи).
+// Трейты или типажи в php это что то вроде миксинов. Они позволяют реализовать
+// подобие множественного наследования в php, их можно подмешивать в классы и
+// другие трейты. трейт выглядит как класс, то начинается с ключевого слова trait.
+
+trait HelloRabbit{
+    function getGreetings(){
+        echo "Christmas Greetings";
+    }
+}
+
+trait User11{
+    function getUser($name){
+        return ucfirst($name);
+    }
+}
+//todo Трейты подмешиваются при помощи ключевого слова use.
+class WelcomeFriend{
+    use HelloRabbit, User11;
+}
+$obj = new WelcomeFriend();
+
+trait Greetings{
+    use HelloRabbit, User11;
+
+    function sayHelloMike($name){
+        echo "Hi Mike";
+    }
+}
+
+//todo Изменение модификаторов доступа
+// В данном случае в трейте был создан приватный метод, но позднее,
+// когда трейт подмешали в класс, метод сделали public.
+trait ModifyMe{
+    private function speaktoMe($name){
+        return "Hello, $name!";
+    }
+}
+
+class Welcommen{
+    use ModifyMe{
+        speaktoMe as public;
+    }
+}
+echo (new Welcommen())->speaktoMe("J");
+br();
+
+//todo Разрешение конфликтов имён.
+// В данном случае создали два трейта содержащие методы с одинаковыми именами.
+// При инкапсуляции этих трейтов в один класс, возникнет конфликт имен.
+// Для этого есть решение.
+trait coolTrait{
+    private function sayHello(){
+        return "Hello";
+    }
+}
+
+trait UserTrait{
+    public function sayHello($name){
+        return $name;
+    }
+}
+
+class TClass{
+    use coolTrait, UserTrait{
+        //todo Чтобы избежать конфликта имен, методу от трейта coolTrait
+        // задаём псевдоним word и делаем его публичным. Доступ к методу будет
+        // через word. А при попытке доступа к методу sayHello вызовется метод
+        // из трейта UserTrait, а не coolTrait
+        coolTrait::sayHello as public word;
+        UserTrait::sayHello insteadof coolTrait;
+    }
+}
+
+$obj11 = new TClass();
+echo $obj11->word(), ", " , $obj11->sayHello("K"), "!";
+br();
