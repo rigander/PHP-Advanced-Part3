@@ -474,8 +474,6 @@ function foo2(callable $x){
     if(func_num_args() == 2){
         $m = func_get_arg(1);
         return $x->$m();
-    }elseif(is_array($x)){
-        return $x[0]::$m[1]();
     }else{
         return $x();
     }
@@ -483,6 +481,6 @@ function foo2(callable $x){
 
 echo foo2($obj, "func"); // MyClass3::func
 br();
-echo foo2(["MyClass", "staticFunc"]); // MyClass::staticFunc
+echo foo2(["MyClass3", "staticFunc"]); // MyClass::staticFunc
 br();
 echo foo2($obj); // MyClass::__invoke

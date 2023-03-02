@@ -4,30 +4,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Новостная лента</title>
+	<title>News feed</title>
 	<meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Последние новости</h1>
+  <h1>Latest news</h1>
   <?php
 
   ?>
   <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
-    Заголовок новости:<br />
+    News headline:<br />
     <input type="text" name="title" /><br />
-    Выберите категорию:<br />
-    <select name="category">
-      <option value="1">Политика</option>
-      <option value="2">Культура</option>
-      <option value="3">Спорт</option>
+      <br>
+    Choose category:<br />
+    <select class="category" name="category">
+      <option value="1">Politics</option>
+      <option value="2">Culture</option>
+      <option value="3">Sport</option>
     </select>
+      <br>
     <br />
-    Текст новости:<br />
+    News text:<br />
     <textarea name="description" cols="50" rows="5"></textarea><br />
-    Источник:<br />
-    <input type="text" name="source" /><br />
+      <br>
+    Source:<br>
+    <input type="text" name="source" /><br /><br>
     <br />
-    <input type="submit" value="Добавить!" />
+    <input class="add-button" type="submit" value="Add!" />
 </form>
 <?php
 
