@@ -5,12 +5,12 @@
 
 <html>
 <head>
-	<title>Новостная лента</title>
+	<title>News feed</title>
 	<meta charset="utf-8" />
 </head>
 <body>
 
-<h1>Последние новости</h1>
+<h1>Latest News</h1>
 <?php
 
 ?>
