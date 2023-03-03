@@ -37,8 +37,6 @@ class NewsDB implements INewsDB{
                     UNION SELECT 2 as id, 'Культура' as name
                     UNION SELECT 3 as id, 'Спорт' as name ";
             $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
-        }else{
-            $this->_db = new SQLite3(self::DB_NAME);
         }
     }
     public function saveNews($title, $category, $description, $source){
