@@ -40,13 +40,19 @@ class NewsDB implements INewsDB{
         }
     }
     public function saveNews($title, $category, $description, $source){
-        // TODO: Implement saveNews() method.
+        $dt = time();
+        $sql = "INSERT INTO msgs (title, category, description, source, datetime)
+                VALUES ( '$title', $category, '$description', '$source', $dt)";
+        return $this->_db-exec($sql);
     }
     public function getNews(){
         // TODO: Implement getNews() method.
     }
     public function deleteNews($id){
         // TODO: Implement deleteNews() method.
+    }
+    function escape($date){
+        return $this->_db->escapeString(trim(strip_tags($date)));
     }
     function __destruct(){
         unset($this->_db);
@@ -61,6 +67,5 @@ class NewsDB implements INewsDB{
     }
 }
 
-$news = new NewsDB();
 
 

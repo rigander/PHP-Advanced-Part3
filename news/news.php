@@ -1,4 +1,15 @@
 <?php
+require "NewsDB.class.php";
+$news = new NewsDB();
+$errMsg = "";
+//todo 'REQUEST_METHOD' - Какой метод был использован для запроса страницы;
+// к примеру 'GET', 'HEAD', 'POST', 'PUT'.
+// $_SERVER - Информация о сервере и среде исполнения. это массив (array),
+// содержащий такую информацию, как заголовки, пути и местоположения скриптов.
+// Записи в этом массиве создаются веб-сервером.
+if ($_SERVER["REQUEST_METHOD"]=="POST"){
+    require "save_news.inc.php";
+}
 
 ?>
 <!DOCTYPE html>
@@ -11,7 +22,9 @@
 <body>
   <h1>Latest news</h1>
   <?php
-
+if ($errMsg != ""){
+    echo "<h3>$errMsg</h3>";
+}
   ?>
   <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
     News headline:<br />
