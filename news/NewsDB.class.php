@@ -18,36 +18,25 @@ class NewsDB implements INewsDB{
     const ERR_PROPERTY = "Wrong property name";
     private $_db;
     function __construct(){
-        if (!$this->_db){
-            $this->_db = new SQLite3(self::DB_NAME);
-            $sql_msgs = "CREATE TABLE msgs(  
+        $this->_db = new SQLite3(self::DB_NAME);
+        if(!filesize(self::DB_NAME)){
+            $sql = "CREATE TABLE msgs(  
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
 	                title TEXT,
 	                category INTEGER,
 	                description TEXT,
 	                source TEXT,
 	                datetime INTEGER)";
-            $sql_catg = "CREATE TABLE category(
+            $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
+            $sql = "CREATE TABLE category(
 	                id INTEGER,
 	                name TEXT)";
-            $stmt_msgs = $this->_db->prepare($sql_msgs);
-            $stmt_catg = $this->_db->prepare($sql_catg);
-
-            $stmt_catg->bindParam(":id", $id);
-            $stmt_catg->bindParam(":title", $title);
-            $stmt_catg->bindParam(":category", $category);
-            $stmt_catg->bindParam(":description", $description);
-            $stmt_catg->bindParam(":source", $source);
-            $stmt_catg->bindParam(":datetime", $datetime);
-
-            $stmt_msgs->bindParam("id", $id);
-            $stmt_msgs->bindParam("name", $name);
-
-            $result=$stmt_msgs->execute();
-            $result=$stmt_catg->execute();
-
-            $stmt_catg ->close();
-            $stmt_msgs ->close();
+            $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
+            $sql = "INSERT INTO category(id, name)
+                    SELECT 1 as id, 'Политика' as name
+                    UNION SELECT 2 as id, 'Культура' as name
+                    UNION SELECT 3 as id, 'Спорт' as name ";
+            $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
         }else{
             $this->_db = new SQLite3(self::DB_NAME);
         }
@@ -74,6 +63,6 @@ class NewsDB implements INewsDB{
     }
 }
 
-
+$news = new NewsDB();
 
 
