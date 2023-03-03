@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="news" uuid="8f467a34-c9ba-46ae-acca-08b631e1f8c4">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:F:\BackEnd WebDeveloper\php\[Специалист] PHP. Уровень 1-4 (2016)\Уровень 3. Профессиональная разработка на PHP 7\php-3\php-3\php-3\server\domains\mysite.local\news.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>
