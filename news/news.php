@@ -47,7 +47,7 @@ if ($errMsg != ""){
     <input class="add-button" type="submit" value="Add!" />
 </form>
 <?php
-
+    require "get_news.inc.php";
 ?>
 </body>
 </html>

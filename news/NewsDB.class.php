@@ -45,8 +45,21 @@ class NewsDB implements INewsDB{
                 VALUES ( '$title', $category, '$description', '$source', $dt)";
         return $this->_db-exec($sql);
     }
+    function db2Arr($data){
+     $arr = [];
+     while($row = $data->fetchArray(SQLITE3_ASSOC))
+          $arr[] = $row;
+        return $arr;
+    }
     public function getNews(){
-        // TODO: Implement getNews() method.
+        $sql = "SELECT msgs.id as id, title, category.name as category,
+                description, source, datetime FROM msgs,
+                category WHERE category.id = msgs.category
+                ORDER BY msgs.id DESC";
+        $items = $this->_db->query($sql);
+        if (!$items)
+            return false;
+        return $this->db2Arr($items);
     }
     public function deleteNews($id){
         // TODO: Implement deleteNews() method.
