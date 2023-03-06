@@ -10,7 +10,6 @@ $errMsg = "";
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
     require "save_news.inc.php";
 }
-
 ?>
 <!DOCTYPE html>
 <html>

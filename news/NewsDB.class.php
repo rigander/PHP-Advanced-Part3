@@ -33,9 +33,9 @@ class NewsDB implements INewsDB{
 	                name TEXT)";
             $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
             $sql = "INSERT INTO category(id, name)
-                    SELECT 1 as id, 'Политика' as name
-                    UNION SELECT 2 as id, 'Культура' as name
-                    UNION SELECT 3 as id, 'Спорт' as name ";
+                    SELECT 1 as id, 'Politics' as name
+                    UNION SELECT 2 as id, 'Culture' as name
+                    UNION SELECT 3 as id, 'Sport' as name ";
             $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
         }
     }
@@ -43,7 +43,7 @@ class NewsDB implements INewsDB{
         $dt = time();
         $sql = "INSERT INTO msgs (title, category, description, source, datetime)
                 VALUES ( '$title', $category, '$description', '$source', $dt)";
-        return $this->_db-exec($sql);
+        return $this->_db->exec($sql);
     }
     function db2Arr($data){
      $arr = [];
