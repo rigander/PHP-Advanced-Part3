@@ -1,16 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body style="background-color: #3c3f41">
-
-</body>
-</html>
 <?php
 require "INewsDB.class.php";
 class NewsDB implements INewsDB{
@@ -62,7 +49,8 @@ class NewsDB implements INewsDB{
         return $this->db2Arr($items);
     }
     public function deleteNews($id){
-        // TODO: Implement deleteNews() method.
+        $sql = "DELETE FROM msgs WHERE id=$id";
+        return $this->_db->exec($sql);
     }
     function escape($date){
         return $this->_db->escapeString(trim(strip_tags($date)));

@@ -10,6 +10,11 @@ $errMsg = "";
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
     require "save_news.inc.php";
 }
+//todo Проверяем пришел ли параметр del в массиве $_GET. Если да то подключаем
+// соответствующий файл. Было ли присвоено какое-то значение свойству del.
+if (isset($_GET["del"])){
+    require "delete_news.inc.php";
+}
 ?>
 <!DOCTYPE html>
 <html>
