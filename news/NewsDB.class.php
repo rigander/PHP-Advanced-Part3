@@ -7,23 +7,33 @@ class NewsDB implements INewsDB{
     function __construct(){
         $this->_db = new SQLite3(self::DB_NAME);
         if(!filesize(self::DB_NAME)){
-            $sql = "CREATE TABLE msgs(  
+            //todo Здесь каждый sql запрос критичен, то есть если какая-то база
+            // не создалась, то дальше не имеет смысла исполнять код.
+            // здесь имеет смысл использовать try...catch.
+            try {
+                $sql = "CREATE TABLE msgs(  
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
 	                title TEXT,
 	                category INTEGER,
 	                description TEXT,
 	                source TEXT,
 	                datetime INTEGER)";
-            $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
-            $sql = "CREATE TABLE category(
+                if (!$this->_db->exec($sql))
+                    throw new Exception("Error. Can't create table");
+                $sql = "CREATE TABLE category(
 	                id INTEGER,
 	                name TEXT)";
-            $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
-            $sql = "INSERT INTO category(id, name)
+                if (!$this->_db->exec($sql))
+                    throw new Exception("Error. Can't create table");
+                $sql = "INSERT INTO category(id, name)
                     SELECT 1 as id, 'Politics' as name
                     UNION SELECT 2 as id, 'Culture' as name
                     UNION SELECT 3 as id, 'Sport' as name ";
-            $this->_db->exec($sql) or die($this->_db->lastErrorMsg());
+                if(!$this->_db->exec($sql))
+                    throw new Exception("Error. Can't create table");
+            }catch (Exception $e){
+                die($e->getMessage());
+            }
         }
     }
     function saveNews($title, $category, $description, $source){
