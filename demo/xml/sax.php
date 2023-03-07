@@ -12,17 +12,24 @@ $sax = xml_parser_create("utf-8");
   // $attributes - если у элемента есть атрибуты, то сюда прейдет ассоциативный
   // массив.
 function onStart($parser, $tag, $attributes){
-
+    //todo Для создания нужной нам таблицы сам тэг <catalog> нас не интересует.
+    // Если в параметр $tag парсер передал не CATALOG и не BOOK, то вывести <td>.
+    if($tag != "CATALOG" and $tag != "BOOK")
+        echo "<td>";
+    if ($tag == "BOOK")
+        echo "<tr>";
 };
   //todo Функция обработчик закрывающих тегов. Всё тоже самое.
 function onEnd($parser, $tag){
-
+    if($tag != "CATALOG" and $tag != "BOOK")
+        echo "</td>";
+    if ($tag == "BOOK")
+        echo "</tr>";
 };
   //todo Функция обработчик текстового содержимого
 function onText($parser, $text){
-
+    echo $text;
 };
-
 
   //todo Регистрация функций как обработчиков событий. Теперь нужно как-то указать
   // парсеру какая из функция для чего служит.
@@ -52,7 +59,7 @@ function onText($parser, $text){
       //todo Парсинг. Так как SAX всего лишь читалка, то все что нам осталось
       // это запустить сам парсер. Этот парсер не работает с файлами, он работает
       // только со строками.
-    xml_parse($sax, "XML string!");
+      // xml_parse($sax, "XML string!");
     //todo Чтобы зачитать файл в строку вторым параметром нужно указать функцию.
     // и уже в ней передать файл.
     xml_parse($sax, file_get_contents("catalog.xml"));
