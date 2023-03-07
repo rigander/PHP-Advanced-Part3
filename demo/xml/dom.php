@@ -6,11 +6,6 @@
   $dom->load("catalog.xml");
   //todo Получим корневой каталог.
   $root = $dom->documentElement;
-//todo Пропустили коллекцию узлов через foreach и вывели содержимое каждого узла.
-foreach($root->childNodes as $book){
-    echo $book->textContent. "<br>";
-}
-
 ?>
 <html>
 
@@ -28,7 +23,24 @@ foreach($root->childNodes as $book){
       <th>Price, usd</th>
     </tr>
     <?php 
-      //Парсинг
+      //todo Парсинг
+      // Пропустили коллекцию узлов через foreach и вывели содержимое каждого узла.
+      // все пробелы будут восприняты
+    foreach($root->childNodes as $book){
+        //todo Нужно проверить что тип узла является элементом. Иначе если к примеру
+        // существуют табуляции и они буду восприняты как текстовые узлы DOM, то например
+        // таблица построится не верно.
+        if ($book->nodeType == 1){
+            echo "<tr>";
+            foreach ($book->childNodes as $item){
+                if ($item->nodeType == 1){
+                    echo "<td>{$item->textContent}</td>";
+                }
+            }
+            echo "</tr>";
+
+        }
+    }
     ?>
   </table>
 </body>
