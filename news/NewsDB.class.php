@@ -3,6 +3,9 @@ require "INewsDB.class.php";
 class NewsDB implements INewsDB{
     const DB_NAME = "../news.db";
     const ERR_PROPERTY = "Wrong property name";
+    const RSS_NAME = "rss.xml";
+    const RSS_TITLE = "Latest news";
+    const RSS_LINK = "http://mysite.local/news/news.php";
     private $_db;
     function __construct(){
         $this->_db = new SQLite3(self::DB_NAME);
@@ -36,11 +39,63 @@ class NewsDB implements INewsDB{
             }
         }
     }
+
+    function createRSS(){
+        $dom = new DOMDocument("1.0", "utf-8");
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+
+        $rss = $dom->createElement("rss");
+        $dom->appendChild($rss);
+        $version = $dom->createAttribute("version");
+        $version->value = "2.0";
+        //todo аттрибут (узел) $version вложен в тэг $rss через appendChild().
+        $rss->appendChild($version);
+
+        $channel = $dom->createElement("channel");
+        $rss->appendChild($channel);
+
+        $title = $dom->createElement("title", self::RSS_TITLE);
+        $link = $dom->createElement("link", self::RSS_LINK);
+        $channel->appendChild($title);
+        $channel->appendChild($link);
+
+        $articles = $this->getNews();
+
+        foreach ($articles as $article){
+            $item = $dom->createElement("item");
+            $channel->appendChild($item);
+
+            $dt = date("d-m-Y H:i:s", $article["datetime"]);
+
+
+            $inner_title = $dom->createElement("title", $article["title"]);
+            $inner_link = $dom->createElement("link", $article["source"]);
+
+            $description = $dom->createElement("description");
+            $cdata = $dom->createCDATASection($article["description"]);
+            $description->appendChild($cdata);
+
+            $pubDate = $dom->createElement("pubDate", $dt);
+            $category = $dom->createElement("category", $article["category"]);
+
+            $item->appendChild($inner_title);
+            $item->appendChild($inner_link);
+            $item->appendChild($description);
+            $item->appendChild($pubDate);
+            $item->appendChild($category);
+
+            $dom->save(self::RSS_NAME);
+        }
+
+    }
     function saveNews($title, $category, $description, $source){
         $dt = time();
         $sql = "INSERT INTO msgs (title, category, description, source, datetime)
                 VALUES ( '$title', $category, '$description', '$source', $dt)";
-        return $this->_db->exec($sql);
+        $this->_db->exec($sql);
+
+        $this->createRSS();
     }
     function db2Arr($data){
      $arr = [];
