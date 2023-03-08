@@ -40,7 +40,7 @@ class NewsDB implements INewsDB{
         }
     }
 
-    function createRSS(){
+    private function createRSS(){
         $dom = new DOMDocument("1.0", "utf-8");
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
@@ -61,6 +61,7 @@ class NewsDB implements INewsDB{
         $channel->appendChild($link);
 
         $articles = $this->getNews();
+        if (!$articles) return false;
 
         foreach ($articles as $article){
             $item = $dom->createElement("item");
@@ -93,9 +94,11 @@ class NewsDB implements INewsDB{
         $dt = time();
         $sql = "INSERT INTO msgs (title, category, description, source, datetime)
                 VALUES ( '$title', $category, '$description', '$source', $dt)";
-        $this->_db->exec($sql);
-
-        $this->createRSS();
+        $result = $this->_db->exec($sql);
+        if (!$result){
+            return false;
+        }else $this->createRSS();
+        return true;
     }
     function db2Arr($data){
      $arr = [];
