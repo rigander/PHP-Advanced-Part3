@@ -29,7 +29,7 @@
         
         table {
           margin: 10px;
-          border-collapse: collapse
+          border-collapse: collapse;
         }
         
         td {
@@ -44,7 +44,8 @@
         }
         
         #colTitle {
-          width: 300px
+          width: 300px;
+        background-color: red;
         }
         
         #colAutor {
