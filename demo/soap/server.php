@@ -9,10 +9,9 @@
 			"5" => 500
     );
     if (isset($stock[$id])) {
-      $quantity = $stock[$id];		
-      return $quantity;
+      return $stock[$id];
     } else {
-      throw new SoapFault("Server", "Несуществующий id товара");
+      throw new SoapFault("Server", "None");
     }	
   }
 // Отключение кэширования WSDL-документа
