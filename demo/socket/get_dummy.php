@@ -1,13 +1,17 @@
 <?php
 header("Content-Type: text/html;charset=utf-8");
 // Сокетное соединение
-	// Создаем сокет (host+порт)
+	// Создаём сокет (host+порт)
 	$socket = fsockopen("mysite.local", 80, $sock_errno, $sock_errmsg, 30);
-	
+	if (!$socket){
+        echo $sock_errmsg;
+        exit;
+    }
 	// Создаем POST-строку
 	$str_query = "name=John&age=25";
 	
 	// Посылка HTTP-запроса
+    // Мы должны послать туда соответствующие заголовки.
 	$out = "POST /demo/socket/dummy.php HTTP/1.1\r\n";
 	$out .= "Host: mysite.local\r\n";
 	$out .= "Content-Type: application/x-www-form-urlencoded\r\n";

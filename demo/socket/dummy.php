@@ -1,6 +1,7 @@
 <?
 $name = strip_tags($_POST["name"]);
 $age = $_POST["age"] * 1;
+print_r($GLOBALS);
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -8,7 +9,7 @@ $age = $_POST["age"] * 1;
 	<title>Передача данных методом POST через сокет</title>
 </head>
 
-<body>
+<body style="background-color: #3c3f41; color:#e78125;">
 <h1>Передача данных методом POST через сокет</h1>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {	
