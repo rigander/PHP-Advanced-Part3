@@ -1,0 +1,24 @@
+body{
+    background-color: #3c3f41;
+    color: #bd6f31;
+}
+.submit{
+    background-color: green;
+    border: none;
+    border-radius: 2px;
+    width: 100px;
+    color: #501d14;
+}
+.submit:active{
+    background-color: aqua;
+}
+.input-field{
+    background-color: #a6b7d8;
+    border: none;
+    border-radius: 2px;
+    width: 200px;
+    margin-left: 10px;
+}
+
+
+
