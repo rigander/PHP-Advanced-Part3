@@ -1,5 +1,11 @@
 <?php
+session_start();
+$string = bin2hex(random_bytes(3));
+$_SESSION["captchaString"] = $string;
+$count = strlen($string);
+
 $img = imagecreatefromjpeg("images/noise.jpg");
+imageAntiAlias($img, true);
 
 $colors = [
   0 => $red = imagecolorallocate($img, 255, 0,0),
@@ -9,7 +15,6 @@ $colors = [
   4 => $violet =  imagecolorallocate($img, 127, 0,255),
   5 => $purple =  imagecolorallocate($img, 128, 0,128)
 ];
-
 $fonts = [
     0 => $bell1 = "fonts/bellb.ttf",
     1 => $georgia1 = "fonts/georgia.ttf",
@@ -18,12 +23,6 @@ $fonts = [
     4 => $georgia3 = "fonts/georgia.ttf",
     5 => $bell3 = "fonts/bellb.ttf",
 ];
-
-$red = imagecolorallocate($img, 255, 0,0);
-imageAntiAlias($img, true);
-
-$string = bin2hex(random_bytes(3));
-$count = strlen($string);
 
 $angle = 0;
 $size = 20;
@@ -44,8 +43,8 @@ for ($l = 0 & $x = 20;
 header("Content-type: image/jpg");
 imagejpeg($img, null, 50);
 
-session_start();
-$_SESSION["captchaString"] = $string;
+
+
 
 
 

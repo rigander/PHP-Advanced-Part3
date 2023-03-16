@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -27,9 +27,6 @@
   </form>
   <br>
   <?php
-  var_dump($_POST);
-  var_dump($_SESSION);
-
   if(!$_POST["answer"]){
      echo "Please fill up captcha";
   }
