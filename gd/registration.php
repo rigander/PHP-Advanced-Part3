@@ -29,14 +29,12 @@ session_start();
   <?php
   if(!$_POST["answer"]){
      echo "Please fill up captcha";
-  }
-  elseif ($_POST["answer"] === $_SESSION["captchaString"]){
+  }elseif ($_POST["answer"] === $_SESSION["captchaString"]){
       echo "All if fine";
   }else{
       echo "Mistake. Please try again.";
   }
-
-  ?>
+?>
 </body>
 
 </html>

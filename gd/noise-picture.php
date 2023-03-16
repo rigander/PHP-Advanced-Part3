@@ -26,10 +26,8 @@ $fonts = [
 
 $angle = 0;
 $size = 20;
-for ($l = 0 & $x = 20;
-     $l <= $count;
-     $l++ & $x +=35
-){
+$x = 20;
+for ($i = 0; $i <= $count; $i++, $x +=35){
     $angle +=15;
     $randomSize = rand(15, 30);
     $randomAngle = rand(15, 90);
@@ -37,7 +35,7 @@ for ($l = 0 & $x = 20;
     $rc = $randomColor;
     $randomFont = rand(0, 5);
     imagettftext($img, $randomSize, $randomAngle, $x, 30, $colors[$rc],
-        $fonts[$randomFont], $string{$l});
+        $fonts[$randomFont], $string{$i});
 }
 
 header("Content-type: image/jpg");
